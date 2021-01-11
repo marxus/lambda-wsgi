@@ -67,26 +67,26 @@ def _environ(req, ev, ctx):
     return environ
 
 
-def _res(app, req, ev, ctx):
-    def start_res(status, res_headers):
-        res['statusCode'] = int(status.split(' ')[0])
-        res['statusDescription'] = status
+def _rsp(app, req, ev, ctx):
+    def start_rsp(status, rsp_headers):
+        rsp['statusCode'] = int(status.split(' ')[0])
+        rsp['statusDescription'] = status
         headers = defaultdict(list)
-        for k, v in res_headers:
+        for k, v in rsp_headers:
             headers[k.lower()].append(v)
 
         if req['_mv']:  # api v1 / alb mv
-            res['multiValueHeaders'] = headers
+            rsp['multiValueHeaders'] = headers
 
         else:  # api v2 / alb
             cookies = headers.pop('set-cookie', [])
             headers = {k: ','.join(v) for k, v in headers.items()}
             headers.update({k: v for k, v in zip(_set_cookie.split(' '), cookies)})
-            res['headers'] = headers
+            rsp['headers'] = headers
 
-    res = {'isBase64Encoded': True}
-    res['body'] = b64encode(b''.join(app(_environ(req, ev, ctx), start_res)))
-    return res
+    rsp = {'isBase64Encoded': True}
+    rsp['body'] = b64encode(b''.join(app(_environ(req, ev, ctx), start_rsp)))
+    return rsp
 
 
 def make_handler(app):
@@ -131,7 +131,7 @@ def make_handler(app):
                 'qs': _qs_mv(ev)
             })
 
-        res = _res(app, req, ev, ctx)
-        return res
+        rsp = _rsp(app, req, ev, ctx)
+        return rsp
 
     return handler

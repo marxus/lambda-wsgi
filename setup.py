@@ -5,7 +5,7 @@ with open('README.md') as file:
 
 setup(
     name='lambda-wsgi',
-    version='0.0.1',
+    version='0.0.2',
     author='Amit Marcus',
     author_email='marxus@gmail.com',
     description='run wsgi apps on aws lambda from api gateway or alb events',

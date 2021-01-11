@@ -1,7 +1,8 @@
 from bottle import Bottle, request, response, json_dumps
 from lambda_wsgi import make_handler
 
-lambda_handler = make_handler(app := Bottle())
+app = Bottle()
+lambda_handler = make_handler(app)
 
 
 @app.get('/')

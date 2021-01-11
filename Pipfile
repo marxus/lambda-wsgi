@@ -4,11 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
+bottle = "*"
+flask = "*"
+pytest = "*"
 
 [dev-packages]
-pytest = "*"
-flask = "*"
-bottle = "*"
 
 [requires]
 python_version = "3.8"

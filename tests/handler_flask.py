@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 from lambda_wsgi import make_handler
 
-lambda_handler = make_handler(app := Flask(__name__))
+app = Flask(__name__)
+lambda_handler = make_handler(app)
 
 
 @app.route('/', methods=['GET'])
